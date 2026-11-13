@@ -1,0 +1,37 @@
+{
+  "artifact_type": "Fabric Dataflow Gen2 execution manifest",
+  "workspace_id": "8f40633e-2087-4192-ba4f-407df8657ae8",
+  "dataflows": [
+    {
+      "pipeline_activity": "DF_Patient_Load",
+      "dataflow_name": "DFG2_FHIR_PATIENT",
+      "dataflow_id": "d748dfd2-b1b9-497b-a955-bb868e1c559e",
+      "m_query_included": false,
+      "status_in_latest_run": "Succeeded"
+    },
+    {
+      "pipeline_activity": "DF_Encounter_Load",
+      "dataflow_name": "DF_FHIR_Encounter_Transformation",
+      "dataflow_id": "cec16d0a-5a00-4e17-a190-08ab5e1304a5",
+      "m_query_included": false,
+      "status_in_latest_run": "Succeeded"
+    },
+    {
+      "pipeline_activity": "DF_Observation_Load",
+      "dataflow_name": "DF_FHIR_Observation_Transformation",
+      "dataflow_id": "7395f0ea-8e88-49fa-9cbd-15108bdc198a",
+      "m_query_included": true,
+      "m_query_file": "DF_FHIR_Observation_Transformation.pq",
+      "status_in_latest_run": "Succeeded"
+    },
+    {
+      "pipeline_activity": "DF_Condition_Load",
+      "dataflow_name": "DF_FHIR_Condition_Transformation",
+      "dataflow_id": "f30a2cb5-279f-44b2-b614-2cbb0ad4345b",
+      "m_query_included": true,
+      "m_query_file": "DF_FHIR_Condition_Transformation.pq",
+      "status_in_latest_run": "Succeeded"
+    }
+  ],
+  "important_note": "The IDs and execution statuses come from the supplied pipeline activity-run export. Only the Observation and Condition M query texts were available in the supplied project files."
+}

@@ -1,0 +1,228 @@
+{
+  "artifact_type": "Fabric pipeline activity-run configuration snapshot",
+  "artifact_name": "PL_FHIR_MAIN",
+  "pipeline_id_from_open_workspace_url": "95579ac7-b31f-49c7-ba79-e142ee725405",
+  "workspace_name": "WS_FHIR_DE_ASSESSMENT",
+  "workspace_id": "8f40633e-2087-4192-ba4f-407df8657ae8",
+  "source_api": "https://hapi.fhir.org/baseR4",
+  "bronze_lakehouse": {
+    "name": "LH_FHIR_BRONZE",
+    "lakehouse_id": "dea856ee-ba34-4c0b-ab8b-36948a8289b3"
+  },
+  "warehouse": {
+    "name": "WH_FHIR_DE",
+    "warehouse_id": "e38a89ef-9d38-44c6-9110-7042253097a0"
+  },
+  "resource_list": [
+    "Patient",
+    "Encounter",
+    "Observation",
+    "Condition"
+  ],
+  "observed_execution_flow": [
+    "Lookup_Watermark",
+    "Set_LastUpdated",
+    "ForEach_FHIR_Resource",
+    "Copy_Resource_To_Bronze (Patient)",
+    "Copy_Resource_To_Bronze (Encounter)",
+    "Copy_Resource_To_Bronze (Observation)",
+    "Copy_Resource_To_Bronze (Condition)",
+    "DF_Patient_Load",
+    "DF_Encounter_Load",
+    "DF_Observation_Load",
+    "DF_Condition_Load",
+    "SQL_Patient_SCD2",
+    "SQL_Data_Validation",
+    "Update_Watermark"
+  ],
+  "activities_from_latest_supplied_run": [
+    {
+      "activity_name": "Lookup_Watermark",
+      "status": "Succeeded",
+      "run_start": "11/12/2026, 11:12:17 PM",
+      "duration": "15s",
+      "sql_reader_query": "SELECT\n    CONVERT(VARCHAR(23),\n        DATEADD(MINUTE, -5, last_successful_watermark),\n        126\n    ) AS last_successful_watermark\nFROM dbo.etl_watermark\nWHERE pipeline_name = 'PL_FHIR_MAIN';",
+      "lookup_value": "2026-10-31T23:55:00Z"
+    },
+    {
+      "activity_name": "Set_LastUpdated",
+      "status": "Succeeded",
+      "run_start": "11/12/2026, 11:12:33 PM",
+      "duration": "Less than 1s",
+      "variable_name": "vLastUpdated",
+      "variable_value": "2026-10-31T23:55:00Z"
+    },
+    {
+      "activity_name": "ForEach_FHIR_Resource",
+      "status": "Succeeded",
+      "run_start": "11/12/2026, 11:12:34 PM",
+      "duration": "1m 22s",
+      "items_count": 4,
+      "resource_iteration_order_observed": [
+        "Patient",
+        "Encounter",
+        "Observation",
+        "Condition"
+      ]
+    },
+    {
+      "activity_name": "Copy_Resource_To_Bronze",
+      "status": "Succeeded",
+      "run_start": "11/12/2026, 11:12:34 PM",
+      "duration": "23s",
+      "resource": "Patient",
+      "request_method": "GET",
+      "evaluated_relative_url": "Patient?_count=10&_lastUpdated=ge2026-10-31T23:55:00Z",
+      "pagination_rules": {
+        "AbsoluteUrl": "$.link[1].url",
+        "MaxRequestNumber": "10"
+      },
+      "sink_type": "JsonSink",
+      "destination_lakehouse": "LH_FHIR_BRONZE",
+      "destination_workspace_id": "8f40633e-2087-4192-ba4f-407df8657ae8",
+      "destination_lakehouse_id": "dea856ee-ba34-4c0b-ab8b-36948a8289b3",
+      "destination_root_folder": "Files",
+      "destination_folder": "patient",
+      "destination_file": "patient_bundle.json",
+      "rows_read": 10,
+      "rows_copied": 10,
+      "files_written": 1,
+      "errors": []
+    },
+    {
+      "activity_name": "Copy_Resource_To_Bronze",
+      "status": "Succeeded",
+      "run_start": "11/12/2026, 11:12:58 PM",
+      "duration": "19s",
+      "resource": "Encounter",
+      "request_method": "GET",
+      "evaluated_relative_url": "Encounter?_count=10&_lastUpdated=ge2026-10-31T23:55:00Z",
+      "pagination_rules": {
+        "AbsoluteUrl": "$.link[1].url",
+        "MaxRequestNumber": "10"
+      },
+      "sink_type": "JsonSink",
+      "destination_lakehouse": "LH_FHIR_BRONZE",
+      "destination_workspace_id": "8f40633e-2087-4192-ba4f-407df8657ae8",
+      "destination_lakehouse_id": "dea856ee-ba34-4c0b-ab8b-36948a8289b3",
+      "destination_root_folder": "Files",
+      "destination_folder": "encounter",
+      "destination_file": "encounter_bundle.json",
+      "rows_read": 10,
+      "rows_copied": 10,
+      "files_written": 1,
+      "errors": []
+    },
+    {
+      "activity_name": "Copy_Resource_To_Bronze",
+      "status": "Succeeded",
+      "run_start": "11/12/2026, 11:13:17 PM",
+      "duration": "18s",
+      "resource": "Observation",
+      "request_method": "GET",
+      "evaluated_relative_url": "Observation?_count=10&_lastUpdated=ge2026-10-31T23:55:00Z",
+      "pagination_rules": {
+        "AbsoluteUrl": "$.link[1].url",
+        "MaxRequestNumber": "10"
+      },
+      "sink_type": "JsonSink",
+      "destination_lakehouse": "LH_FHIR_BRONZE",
+      "destination_workspace_id": "8f40633e-2087-4192-ba4f-407df8657ae8",
+      "destination_lakehouse_id": "dea856ee-ba34-4c0b-ab8b-36948a8289b3",
+      "destination_root_folder": "Files",
+      "destination_folder": "observation",
+      "destination_file": "observation_bundle.json",
+      "rows_read": 10,
+      "rows_copied": 10,
+      "files_written": 1,
+      "errors": []
+    },
+    {
+      "activity_name": "Copy_Resource_To_Bronze",
+      "status": "Succeeded",
+      "run_start": "11/12/2026, 11:13:36 PM",
+      "duration": "18s",
+      "resource": "Condition",
+      "request_method": "GET",
+      "evaluated_relative_url": "Condition?_count=10&_lastUpdated=ge2026-10-31T23:55:00Z",
+      "pagination_rules": {
+        "AbsoluteUrl": "$.link[1].url",
+        "MaxRequestNumber": "10"
+      },
+      "sink_type": "JsonSink",
+      "destination_lakehouse": "LH_FHIR_BRONZE",
+      "destination_workspace_id": "8f40633e-2087-4192-ba4f-407df8657ae8",
+      "destination_lakehouse_id": "dea856ee-ba34-4c0b-ab8b-36948a8289b3",
+      "destination_root_folder": "Files",
+      "destination_folder": "condition",
+      "destination_file": "condition_bundle.json",
+      "rows_read": 10,
+      "rows_copied": 10,
+      "files_written": 1,
+      "errors": []
+    },
+    {
+      "activity_name": "DF_Patient_Load",
+      "status": "Succeeded",
+      "run_start": "11/12/2026, 11:13:55 PM",
+      "duration": "50s",
+      "dataflow_id": "d748dfd2-b1b9-497b-a955-bb868e1c559e",
+      "workspace_id": "8f40633e-2087-4192-ba4f-407df8657ae8",
+      "dataflow_type": "DataflowFabric",
+      "execution_duration_seconds": 46
+    },
+    {
+      "activity_name": "DF_Encounter_Load",
+      "status": "Succeeded",
+      "run_start": "11/12/2026, 11:14:46 PM",
+      "duration": "33s",
+      "dataflow_id": "cec16d0a-5a00-4e17-a190-08ab5e1304a5",
+      "workspace_id": "8f40633e-2087-4192-ba4f-407df8657ae8",
+      "dataflow_type": "DataflowFabric",
+      "execution_duration_seconds": 31
+    },
+    {
+      "activity_name": "DF_Observation_Load",
+      "status": "Succeeded",
+      "run_start": "11/12/2026, 11:15:20 PM",
+      "duration": "33s",
+      "dataflow_id": "7395f0ea-8e88-49fa-9cbd-15108bdc198a",
+      "workspace_id": "8f40633e-2087-4192-ba4f-407df8657ae8",
+      "dataflow_type": "DataflowFabric",
+      "execution_duration_seconds": 31
+    },
+    {
+      "activity_name": "DF_Condition_Load",
+      "status": "Succeeded",
+      "run_start": "11/12/2026, 11:15:54 PM",
+      "duration": "33s",
+      "dataflow_id": "f30a2cb5-279f-44b2-b614-2cbb0ad4345b",
+      "workspace_id": "8f40633e-2087-4192-ba4f-407df8657ae8",
+      "dataflow_type": "DataflowFabric",
+      "execution_duration_seconds": 31
+    },
+    {
+      "activity_name": "SQL_Patient_SCD2",
+      "status": "Succeeded",
+      "run_start": "11/12/2026, 11:16:28 PM",
+      "duration": "11s",
+      "sql_command": "EXEC dbo.usp_load_dim_patient_scd2;"
+    },
+    {
+      "activity_name": "SQL_Data_Validation",
+      "status": "Succeeded",
+      "run_start": "11/12/2026, 11:16:40 PM",
+      "duration": "12s",
+      "sql_command": "EXEC dbo.usp_validate_fhir_pipeline;"
+    },
+    {
+      "activity_name": "Update_Watermark",
+      "status": "Succeeded",
+      "run_start": "11/12/2026, 11:16:53 PM",
+      "duration": "14s",
+      "sql_command": "UPDATE dbo.etl_watermark SET last_successful_watermark = CAST('2026-11-12T17:42:08.835' AS DATETIME2(6)) WHERE pipeline_name = 'PL_FHIR_MAIN';",
+      "records_affected": 1
+    }
+  ],
+  "important_note": "This is a run-configuration snapshot reconstructed from the supplied Activity Runs CSV. It is not the native Fabric pipeline item definition and is not an importable ARM template or pipeline JSON export."
+}
